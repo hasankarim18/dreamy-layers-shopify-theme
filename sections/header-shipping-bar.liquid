@@ -1,0 +1,21 @@
+<div class="container">
+  <h2>
+    {{ section.settings.shipping-text }}
+  </h2>
+  <div class="shipping"></div>
+</div>
+
+{% schema %}
+  {
+    "name": "Shipping Bar",
+    "settings": [
+      {
+        "type": "text",
+        "id": "shipping-text",
+        "label": "Title",
+        "default": "Free shipping on all products"
+      }
+    ]
+  }
+
+{% endschema %}
