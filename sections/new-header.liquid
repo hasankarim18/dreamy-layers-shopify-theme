@@ -1,0 +1,344 @@
+{% schema %}
+  {
+    "name": "Header",
+    "class": "top-new-header",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Select Logo"
+      },
+      {
+        "type": "range",
+        "id": "logo_width",
+        "default": 120,
+        "min": 50,
+        "max": 150,
+        "label": "Logo Width",
+        "step": 1
+
+      },
+      {
+        "type": "range",
+        "id": "logo_height",
+        "default": 100,
+        "min": 50,
+        "max": 150,
+        "label": "Logo Height",
+        "step": 1
+      },
+      {
+        "type": "range",
+        "id": "header_space",
+        "default": 10,
+        "min": 0,
+        "max": 100,
+        "label": "Header Top Bottom Space",
+        "step": 1
+      },
+      {
+        "type": "checkbox",
+        "id": "header_separator",
+        "label": "Show Header Separator",
+        "default": false
+      },
+      {
+        "type": "color",
+        "id": "separator_color",
+        "label": "Separator color",
+        "default": "#000"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "header_menu",
+        "name": "Header Menu Block",
+        "settings": [
+          {
+            "type": "text",
+            "id": "name",
+            "label": "Menu Name"
+          },
+          {
+            "type": "url",
+            "id": "menu_url",
+            "label": "Menu url"
+          }
+        ]
+      }
+    ]
+  }
+
+{% endschema %}
+
+
+<style>
+  .new-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 1em;
+    align-items: center;
+    padding: 1em 0;
+  }
+
+  .new-header img {
+    object-fit: cover;
+  }
+
+  .new-header .links {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .search-login-cart {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .toggle-sidecart {
+    position: relative;
+  }
+
+  .new-header-search-form {
+    display: flex;
+    height: 50px;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #9e9e9e;
+    height: 50px;
+    overflow: hidden;
+    width: 300px;
+    border-radius: 20px;
+    position: relative;
+    z-index: 1;
+    transition: all 0.2s ease-in;
+  }
+
+  .new-header-search-form:focus-within {
+    border: 2px solid black;
+  }
+
+  .search-header__input {
+    display: block;
+    height: 48px;
+    padding: 5px;
+    box-sizing: border-box;
+    flex-grow: 1;
+    border: none;
+    position: relative;
+    z-index: 2;
+  }
+
+  .search-header__input:focus-visible {
+    border: none;
+    box-shadow: none;
+    outline: none;
+  }
+
+
+  .search-header__submit {
+    border: none;
+    background-color: #9e9e9e;
+    height: 50px;
+    transition: all 0.2s ease-in;
+  }
+
+  .search-header__submit img {
+    object-fit: contain;
+  }
+
+
+  .search-header__submit:hover {
+    cursor: pointer;
+    background-color: black;
+  }
+
+  .new-header .icons {
+    gap: 1rem;
+  }
+
+  .new-header .icons .cart {
+    position: relative;
+
+  }
+
+  .new-header .icons .cart img {
+    position: relative;
+  }
+  .new-header .icons .cart span {
+    position: absolute;
+    right: -12px;
+    top: -15px;
+    font-size: 14px;
+    font-weight: 700;
+    font-size: 18px;
+    background-color: rgba(0, 0, 0, 0.201);
+    color: red;
+    width: 25px;
+    height: 25px;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s ease-in;
+  }
+
+  .new-header .icons .cart:hover .js-cartcount {
+    background-color: rgba(0, 0, 0, 0.401);
+  }
+
+  #searchResults {
+    position: absolute;
+    background: #fff;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
+    width: 100%;
+  }
+
+  .result-heading {
+    padding: 2em 0;
+    text-align: center;
+  }
+
+  #searchResults:empty {
+    display: none;
+  }
+
+  #searchResults p.no-result {
+    padding: 1em 1em 0.5em;
+  }
+
+  #searchResults .product-card {
+    display: flex;
+    justify-content: flex-start;
+    padding: 1em;
+  }
+
+  #searchResults .product-card:not(:last-of-type) {
+    border-bottom: 1px solid #9e9e9e;
+  }
+
+  #searchResults .product-card:last-of-type {
+    padding-bottom: 0.5em;
+  }
+
+  #searchResults .product-img {
+    width: 70px;
+    height: 70px;
+  }
+
+  #searchResults .grid-content {
+    display: flex;
+    flex-flow: column;
+    gap: 4px;
+    align-items: flex-start;
+    text-align: left;
+
+  }
+
+  #searchResults .collection-price {
+    justify-content: flex-start;
+  }
+
+  #searchResults p {
+    margin: 0 0 4px;
+    font-weight: 600;
+  }
+
+
+</style>
+
+
+<div style="padding:{{ section.settings.header_space }}" class="new-header-wrapper">
+  <div class="container">
+    <div class="new-header">
+
+      <a href="/" class="logoimg">
+        {% if section.settings.logo %}
+          <img
+            alt="{{shop.name}}"
+            width="{{section.settings.logo_width}}"
+            height="{{section.settings.logo_height}}"
+            src="{{section.settings.logo |  image_url}}">
+        {% else %}
+          <h1 style="maring:0; padding:0;" class="">
+            {{ shop.name }}
+          </h1>
+        {% endif %}
+
+
+      </a>
+      <div class="links">
+        {% for block in section.blocks %}
+          {%- case block.type -%}
+            {%- when "header_menu" -%}
+              <a href="{{block.settings.menu_url}}">
+                {{ block.settings.name }}
+              </a>
+          {% endcase %}
+        {% endfor %}
+      </div>
+      {% comment %} search {% endcomment %}
+      <div class="search-login-cart">
+        <form
+          class="new-header-search-form"
+          action="/search"
+          method="get"
+          role="search"
+          id="search">
+          <input
+            type="search"
+            name="q"
+            id="searchInput"
+            aria-label="Search our site"
+            placeholder="Search "
+            class="search-header__input">
+          <button type="submit" class="search-header__submit">
+            <img
+              class="search-header_submit"
+              width="30"
+              height="30"
+              alt="search icon"
+              src="{{'search-icon.png' |  asset_img_url:'medium'}}">
+          </button>
+        </form>
+        <div id="searchResults"></div>
+        <div class="icons flex-center">
+          <a href="account/login">
+            <img
+              class="flex-center"
+              width="24"
+              height="24"
+              src="{{'user.png' |  asset_img_url:'medium'}}"
+              alt="login user">
+          </a>
+          <a class="cart flex-center toggle-sidecart" href="/cart">
+            <img
+              width="24"
+              height="24"
+              src="{{'cart.png' |  asset_img_url:'medium'}}"
+              alt="carts">
+            <span class="js-cartcount">
+              {{ cart.item_count }}</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% assign separator_color = section.settings.separator_color %}
+{% if section.settings.header_separator %}
+  <style>
+    .header-separator {
+      width: 100%;
+      border-bottom: 1px solid{{separator_color}};
+      height: 1px;
+      margin-bottom: 10px;
+    }
+  </style>
+  <div style="display:block;" class="header-separator"></div>
+{% endif %}

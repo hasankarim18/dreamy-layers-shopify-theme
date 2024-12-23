@@ -356,7 +356,7 @@ body {
   </head>
 
 
-  <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
+  <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %} {{template.name}}">
     <a class="skip-to-content-link button visually-hidden" href="#MainContent">
       {{ 'accessibility.skip_to_text' | t }}
     </a>
@@ -367,6 +367,8 @@ body {
     {% comment %} #header-group {% endcomment %}
     {% comment %} {% sections 'header-group' %} {% endcomment %}
     {% section 'header-shipping-bar' %}
+    {% section 'new-header' %}
+
 
     <main
       id="MainContent"
@@ -374,9 +376,10 @@ body {
       role="main"
       tabindex="-1">
       {{ content_for_layout }}
-    </main>
+  </main>
 
-    {% sections 'footer-group' %}
+    {% comment %} {% sections 'footer-group' %} {% endcomment %}
+    {% section 'new-footer' %}
 
     <ul hidden>
       <li id="a11y-refresh-page-message">{{ 'accessibility.refresh_page' | t }}</li>

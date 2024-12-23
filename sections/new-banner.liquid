@@ -1,0 +1,56 @@
+{% schema %}
+  {
+    "name": "New Banner",
+    "class": "new-banner",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "banner-img",
+        "label": "Banner Image"
+      },
+      {
+        "type": "text",
+        "id": "mini-text",
+        "label": "Mini Text"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Title"
+      },
+      {
+        "type": "text",
+        "id": "content",
+        "label": "Content",
+        "default": "Award winning products"
+      },
+      {
+        "type": "url",
+        "id": "url",
+        "label": "Url"
+      }
+    ],
+    "presets": [
+      {
+        "name": "New Banner",
+        "settings": {
+          "mini-text": "New Arrival From Prsets",
+          "title": "Title",
+          "content": "Award winning products"
+        }
+      }
+    ]
+  }
+
+{% endschema %}
+
+
+<div class="">
+  <div class="bg-image">
+    <img
+      src="{{ section.settings.banner-img |  image_url:  '100x100'   }}"
+      width=""
+      height="">
+  </div>
+</div>
