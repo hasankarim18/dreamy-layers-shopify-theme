@@ -31,3 +31,7 @@ a {
 .pos-relative {
   position: relative;
 }
+
+.pos-abs {
+  position: absolute;
+}
