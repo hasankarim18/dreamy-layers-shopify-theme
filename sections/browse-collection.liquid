@@ -1,0 +1,239 @@
+{% schema %}
+  {
+    "name": "New Browse Collection",
+    "tag": "section",
+    "class": "browse-collection-wrapper",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Browse The Range"
+      },
+      {
+        "type": "text",
+        "id": "paragraph",
+        "label": "Content",
+        "default": "Elegant titmeless and functional products"
+      },
+      {
+        "type": "range",
+        "id": "padding_top",
+        "default": 1,
+        "label": "Padding top",
+        "min": 0,
+        "max": 8,
+        "step": 1,
+        "unit": "em"
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom",
+        "default": 1,
+        "label": "Padding bottom",
+        "min": 0,
+        "max": 8,
+        "step": 1,
+        "unit": "em"
+      }
+    ],
+    "blocks": [
+      {
+        "name": "Collections",
+        "type": "type_collection",
+        "limit": 3,
+        "settings": [
+          {
+            "type": "collection",
+            "id": "col",
+            "label": "Select Collection"
+          },
+          {
+            "type": "image_picker",
+            "id": "img",
+            "label": "Pick collection image "
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "New Browse Collection",
+        "settings": {},
+        "blocks": [
+          {
+            "type": "type_collection"
+          },
+          {
+            "type": "type_collection"
+          },
+          {
+            "type": "type_collection"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+<div class="container ">
+  <div class="browse-collection">
+    <h2>
+      {{ section.settings.title }}
+    </h2>
+    <p>{{ section.settings.paragraph }}</p>
+    <ul class="collection-lists">
+      {%- for block in section.blocks -%}
+        {%- case block.type] -%}
+          {%- when "type_collection" -%}
+            <li class="collection-list child-col-{{ forloop.index }}">
+              <a href="{{ block.settings.col.url }}" class="pos-relative ">
+                {%- if block.settings.img == nil -%}
+                  <span>
+                    {{ 'collection-1' | placeholder_svg_tag }}</span>
+                {% else %}
+                  <img
+                    src="{{block.settings.img |  image_url }}"
+                    width=""
+                    height=""
+                    class="">
+                {%- endif -%}
+                <h3>
+                  {%- if block.settings.col and block.settings.col.title -%}
+                    {{ block.settings.col.title }}
+                  {%- else -%}
+                    Collection title
+                  {%- endif -%}
+                </h3>
+              </a>
+            </li>
+        {%- endcase -%}
+
+      {%- endfor -%}
+    </ul>
+  </div>
+</div>
+
+<style>
+
+  .browse-collection {
+    text-align: center;
+    margin: 2em 0;
+    padding-top: {{ section.settings.padding_top }};
+    padding-bottom: {{ section.settings.padding_bottom }}
+  }
+
+  .browse-collection h2 {
+    margin-bottom: 0;
+  }
+
+  .browse-collection p {
+    margin-top: 0;
+  }
+  ul.collection-lists {
+    padding: 30px 10px;
+    gap: 30px;
+    list-style: none;
+    display: grid;
+    grid-template-areas: "a a a b b" "a a a c c";
+  }
+  ul.collection-lists li.child-col-1 {
+    grid-area: a;
+  }
+  ul.collection-lists li.child-col-2 {
+    grid-area: b;
+  }
+  ul.collection-lists li.child-col-3 {
+    grid-area: c;
+  }
+
+  ul.collection-lists li.collection-list {
+    box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0
+    , rgba(17, 19, 21, 0.15) 0 0 0 1px;
+  }
+
+
+  ul.collection-lists li.collection-list a {
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  ul.collection-lists li.child-col-1 a svg {
+    grid-area: a;
+    height: 50vh;
+  }
+  ul.collection-lists li.child-col-2 a svg {
+    grid-area: b;
+    height: 25vh;
+  }
+  ul.collection-lists li.child-col-3 a svg {
+    grid-area: c;
+    height: 25vh;
+  }
+  ul.collection-lists li.collection-list a svg {
+    width: 100%;
+  }
+  /* image */
+  ul.collection-lists li.child-col-1 a img {
+    grid-area: a;
+    height: 50vh;
+  }
+  ul.collection-lists li.child-col-2 a img {
+    grid-area: b;
+    height: 25vh;
+  }
+  ul.collection-lists li.child-col-3 a img {
+    grid-area: c;
+    height: 25vh;
+  }
+  ul.collection-lists li.collection-list a img {
+    width: 100%;
+  }
+
+  @media only screen and (max-width: 980px) {
+    ul.collection-lists {
+
+      gap: 30px;
+      list-style: none;
+      display: grid;
+      grid-template-areas: "a" "b" "c";
+    }
+    ul.collection-lists li.child-col-1 a svg {
+      grid-area: a;
+      height: 50vh;
+    }
+    ul.collection-lists li.child-col-2 a svg {
+      grid-area: b;
+      height: 50vh;
+    }
+    ul.collection-lists li.child-col-3 a svg {
+      grid-area: c;
+      height: 50vh;
+    }
+    ul.collection-lists li.collection-list a svg {
+      width: 100%;
+    }
+    /* image */
+    ul.collection-lists li.child-col-1 a img {
+      grid-area: a;
+      height: 50vh;
+    }
+    ul.collection-lists li.child-col-2 a img {
+      grid-area: b;
+      height: 50vh;
+    }
+    ul.collection-lists li.child-col-3 a img {
+      grid-area: c;
+      height: 50vh;
+    }
+    ul.collection-lists li.collection-list a img {
+      width: 100%;
+    }
+  }
+</style>

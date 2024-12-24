@@ -97,7 +97,7 @@
     "sale_badge_color_scheme": "scheme-4",
     "sold_out_badge_color_scheme": "scheme-3",
     "brand_headline": "",
-    "brand_description": "<p><\/p>",
+    "brand_description": "<p></p>",
     "brand_image_width": 100,
     "social_facebook_link": "",
     "social_instagram_link": "",
@@ -141,8 +141,8 @@
       "new-header": {
         "type": "new-header",
         "settings": {
-          "logo": "shopify:\/\/shop_images\/the.png",
-          "logo_width": 154,
+          "logo": "shopify://shop_images/the.png",
+          "logo_width": 140,
           "logo_height": 90
         }
       },
@@ -366,7 +366,7 @@
       "sale_badge_color_scheme": "scheme-4",
       "sold_out_badge_color_scheme": "scheme-3",
       "brand_headline": "",
-      "brand_description": "<p><\/p>",
+      "brand_description": "<p></p>",
       "brand_image_width": 100,
       "social_twitter_link": "",
       "social_facebook_link": "",
